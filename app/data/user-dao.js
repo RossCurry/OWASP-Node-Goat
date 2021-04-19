@@ -16,6 +16,7 @@ function UserDAO(db) {
 
     this.addUser = (userName, firstName, lastName, password, email, callback) => {
 
+        const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync());
         // Create user document
         const user = {
             userName,
@@ -26,7 +27,7 @@ function UserDAO(db) {
             
             // Fix for A2-1 - Broken Auth
             // Stores password  in a safer way using one way encryption and salt hashing
-            password: bcrypt.hashSync(password, bcrypt.genSaltSync())
+            password: hashedPassword
             
         };
 
@@ -63,6 +64,8 @@ function UserDAO(db) {
             // Fix for A2-Broken Auth
             // compares decrypted password stored in this.addUser()
             */
+        //    console.log('fromDB',fromDB);
+        //    console.log('fromUser', fromUser);
             return bcrypt.compareSync(fromDB, fromUser);
         }
 
