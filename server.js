@@ -7,11 +7,11 @@ const session = require("express-session");
 // const csrf = require('csurf');
 const consolidate = require("consolidate"); // Templating library adapter for Express
 const swig = require("swig");
-// const helmet = require("helmet");
+const helmet = require("helmet");
 const MongoClient = require("mongodb").MongoClient; // Driver for connecting to MongoDB
 const http = require("http");
 const marked = require("marked");
-//const nosniff = require('dont-sniff-mimetype');
+const nosniff = require('dont-sniff-mimetype');
 const app = express(); // Web framework to handle routing requests
 const routes = require("./app/routes");
 const { port, db, cookieSecret } = require("./config/config"); // Application config properties
@@ -39,6 +39,8 @@ MongoClient.connect(db, (err, db) => {
     // Fix for A5 - Security MisConfig
     // TODO: Review the rest of helmet options, like "xssFilter"
     // Remove default x-powered-by response header
+
+    */
     app.disable("x-powered-by");
 
     // Prevent opening page in frame or iframe to protect from clickjacking
@@ -62,7 +64,6 @@ MongoClient.connect(db, (err, db) => {
 
     // Forces browser to only use the Content-Type set in the response header instead of sniffing or guessing it
     app.use(nosniff());
-    */
 
     // Adding/ remove HTTP Headers for security
     app.use(favicon(__dirname + "/app/assets/favicon.ico"));
@@ -86,8 +87,8 @@ MongoClient.connect(db, (err, db) => {
         /*
         // Fix for A5 - Security MisConfig
         // Use generic cookie name
-        key: "sessionId",
         */
+        key: "sessionId",
 
         /*
         // Fix for A3 - XSS
