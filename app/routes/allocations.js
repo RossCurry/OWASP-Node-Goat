@@ -21,8 +21,8 @@ function AllocationsHandler(db) {
             threshold
         } = req.query
 
-        // allocationsDAO.getByUserIdAndThreshold(userId, threshold, (err, allocations) => {
-        allocationsDAO.getByUserId(userId, (err, allocations) => {
+        allocationsDAO.getByUserIdAndThreshold(userId, threshold, (err, allocations) => {
+        // allocationsDAO.getByUserId(userId, (err, allocations) => {
             if (err) return next(err);
             return res.render("allocations", {
                 userId,

@@ -18,6 +18,7 @@ const { port, db, cookieSecret } = require("./config/config"); // Application co
 /*
 // Fix for A6-Sensitive Data Exposure
 // Load keys for establishing secure HTTPS connection
+*/
 const fs = require("fs");
 const https = require("https");
 const path = require("path");
@@ -25,7 +26,6 @@ const httpsOptions = {
     key: fs.readFileSync(path.resolve(__dirname, "./artifacts/cert/server.key")),
     cert: fs.readFileSync(path.resolve(__dirname, "./artifacts/cert/server.crt"))
 };
-*/
 
 MongoClient.connect(db, (err, db) => {
     if (err) {
@@ -133,24 +133,24 @@ MongoClient.connect(db, (err, db) => {
     // Template system setup
     swig.setDefaults({
         // Autoescape disabled
-        autoescape: false
+        // autoescape: false
         /*
         // Fix for A3 - XSS, enable auto escaping
-        autoescape: true // default value
         */
+        autoescape: true // default value
     });
 
     // Insecure HTTP connection
-    http.createServer(app).listen(port, () => {
-        console.log(`Express http server listening on port ${port}`);
-    });
+    // http.createServer(app).listen(port, () => {
+    //     console.log(`Express http server listening on port ${port}`);
+    // });
 
     /*
     // Fix for A6-Sensitive Data Exposure
     // Use secure HTTPS protocol
-    https.createServer(httpsOptions, app).listen(port, () => {
-        console.log(`Express http server listening on port ${port}`);
-    });
     */
+    https.createServer(httpsOptions, app).listen(port, () => {
+        console.log(`Express http server listening on port ${port} - secure`);
+    });
 
 });
